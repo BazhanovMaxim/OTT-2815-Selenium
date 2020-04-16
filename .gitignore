@@ -6,6 +6,7 @@ target/
 .allure/
 .idea/
 build/
+debug.log
 .gitattributes
 pom.xml.tag
 pom.xml.releaseBackup
