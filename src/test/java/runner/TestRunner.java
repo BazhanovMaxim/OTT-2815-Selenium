@@ -4,6 +4,7 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import pageObject.BasePage;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -12,7 +13,7 @@ import org.junit.runner.RunWith;
         plugin = {"pretty"}
 )
 
-public class TestRunner {
+public class TestRunner{
 
     @BeforeClass
     public static void beforeClass()

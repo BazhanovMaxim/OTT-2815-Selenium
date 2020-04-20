@@ -2,51 +2,26 @@ package pageObject;
 
 import annotations.ElementTitle;
 import annotations.PageEntry;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-@PageEntry(PageTitle = "Страница авториации")
-public class AuthPage {
+@PageEntry(PageTitle = "Страница авторизации")
+public class AuthPage extends BasePage{
 
-    //@ElementTitle(ElementTitle = "Запуск теста")
-    public String testVoid(){
-        return "Hello world";
-    }
-
-    /**
-     * Пустой конструктор нужен, чтобы в рефлексии использовать newInstance()
-     */
     public AuthPage(){
-
+        PageFactory.initElements(webDriver, this);
     }
 
-    private WebDriver driver;
+    @ElementTitle(ElementTitle = "LoginField")
+    @FindBy(id = "login-form-username")
+    private WebElement LoginField;
 
-    public AuthPage(WebDriver driverPage){
-        this.driver = driverPage;
-    }
+    @ElementTitle(ElementTitle = "PasswordField")
+    @FindBy(id = "login-form-password")
+    private WebElement PasswordField;
 
-    @ElementTitle(ElementTitle = "Логин")
-    @FindBy(id = "login_field")
-    private WebElement loginField;
-
-    @ElementTitle(ElementTitle = "Пароль")
-    @FindBy(id = "password")
-    private WebElement passwordField;
-
-    @ElementTitle(ElementTitle = "Войти")
-    @FindBy(className = "btn")
-    private WebElement btnEnter;
-
-    public void openSite(){
-        driver.get("https://github.com/login");
-    }
-
-    public void enterValue(String login, String password){
-        loginField.sendKeys(login);
-        passwordField.sendKeys(password);
-        btnEnter.click();
-    }
+    @ElementTitle(ElementTitle = "LogIn")
+    @FindBy(id = "login")
+    private WebElement LogIn;
 }
