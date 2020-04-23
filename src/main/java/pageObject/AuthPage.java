@@ -4,14 +4,13 @@ import annotations.ElementTitle;
 import annotations.PageEntry;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-@PageEntry(PageTitle = "Страница авторизации")
-public class AuthPage extends BasePage{
+@PageEntry(PageTitle = "Welcome to Jira")
+public class AuthPage extends TestBase {
 
-    public AuthPage(){
-        PageFactory.initElements(webDriver, this);
-    }
+    @ElementTitle(ElementTitle = "Welcome to Jira")
+    @FindBy(css = ".aui-page-header-main > h1")
+    private WebElement titleLogin;
 
     @ElementTitle(ElementTitle = "LoginField")
     @FindBy(id = "login-form-username")
@@ -22,6 +21,6 @@ public class AuthPage extends BasePage{
     private WebElement PasswordField;
 
     @ElementTitle(ElementTitle = "LogIn")
-    @FindBy(id = "login")
-    private WebElement LogIn;
+    @FindBy(id = "login-form-submit")
+    private WebElement loginButton;
 }

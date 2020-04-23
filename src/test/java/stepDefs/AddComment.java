@@ -1,10 +1,10 @@
 package stepDefs;
 
+import io.qameta.allure.Step;
 import pageObject.TestBase;
 import allure.AllureLogger;
 import filesUtils.CreateFile;
 import filesUtils.ReadFile;
-import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
 import io.restassured.response.Response;
@@ -18,8 +18,9 @@ public class AddComment extends AllureLogger {
     private CreateFile createFile;
     private TestBase testBase;
 
+    @Step("Отправляется запрос на добавления комментария")
     @Тогда("отправляется запрос на добавления комментария")
-    public void отправляетсяЗапросНаДобавленияКомментария() {
+    public void requestIsSentToAddAComment() {
         postRequest = new PostRequest();
         readFile = new ReadFile();
         // Отправка запроса
@@ -32,36 +33,27 @@ public class AddComment extends AllureLogger {
         equals("Проверка статуса кода", response.getStatusCode(), 201);
     }
 
+    @Step("Пользователь нажимает на {namePage} на кнопку {nameButton}")
     @Тогда("пользователь нажимает на \"([^\"]*)\" на кнопку \"([^\"]*)\"$")
-    public void пользовательНажимаетНаНавигационнуюПанельНаКнопку(String namePage, String nameButton) {
+    public void userClicksOnThePageNameOnTheButton(String namePage, String nameButton) {
         createFile = new CreateFile();
         testBase = new TestBase();
-        System.out.println("Отправил название " + namePage);
         testBase.setPageTitle(namePage);
-        System.out.println("Отправил название - получаю: " + testBase.getPageTitle());
         testBase.clickToElement(nameButton);
         attachScreenshot();
     }
 
-    @Когда("пользовать выбирает запись по ключу")
-    public void пользоватьВыбираетЗаписьПоКлючу() {
+    @Step("Пользователь выбирает запись по ключу {issueKey}")
+    @Когда("пользователь выбирает запись по ключу \"([^\"]*)\"$")
+    public void UserSelectsAnEntryByKey(String issueKey) {
+        testBase = new TestBase();
+        testBase.clickToElement(issueKey);
     }
 
-    @И("пользователь нажимает на кнопку Comment")
-    public void пользовательНажимаетНаКнопкуComment() {
+    @Step("Пользователь в поле {nameField} печатает комментарий {commentText}")
+    @Тогда("пользователь в поле \"([^\"]*)\" печатает комментарий \"([^\"]*)\"$")
+    public void userInThePrintCommentField(String nameField, String commentText) {
+        testBase = new TestBase();
+        testBase.EnterValueToFill(nameField, commentText);
     }
-
-    @Тогда("пользователь печатает комментарий {string}")
-    public void пользовательПечатаетКомментарий(String arg0) {
-    }
-
-    @И("пользовать нажимает на кнопку Add")
-    public void пользоватьНажимаетНаКнопкуAdd() {
-    }
-
-    @Тогда("проверяется добавленный комментарий")
-    public void проверяетсяДобавленныйКомментарий() {
-    }
-
-
 }

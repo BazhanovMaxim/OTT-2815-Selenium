@@ -1,10 +1,9 @@
 package stepDefs;
 
+import io.qameta.allure.Step;
 import pageObject.TestBase;
 import allure.AllureLogger;
-import filesUtils.CreateFile;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.ru.Дано;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
@@ -15,39 +14,42 @@ import java.util.Map;
 @RunWith(Cucumber.class)
 public class Auth extends AllureLogger {
 
-    private CreateFile createFile;
     private TestBase testBase;
 
-    @Дано("открыта \"([^\"]*)\"$")
-    public void открытьСтраницуАвторизации(String namePage) {
+    @Step("Открывается страница {namePage}")
+    @Тогда("открывается страница \"([^\"]*)\"$")
+    public void pageOpens(String namePage){
         testBase = new TestBase();
-        createFile = new CreateFile();
-        System.out.println("Название авторизации: " + namePage);
         testBase.setPageTitle(namePage);
-        System.out.println("Отправил название, получаю: " + testBase.getPageTitle());
-        testBase.openURL();
+        equals("Проверка заголовка страницы", testBase.getTitle(namePage), namePage);
         attachScreenshot();
     }
 
+    @Step("Пользователь вводит свои данные")
     @Когда("пользователь вводит свои данные")
-    public void пользовательВПолеВводит(DataTable dataTable){
+    public void userEntersInTheField(DataTable dataTable){
         testBase = new TestBase();
         Map<String, String> getMapDataUser = dataTable.asMap(String.class, String.class);
         for (Map.Entry<String, String> entry : getMapDataUser.entrySet()){
+            System.out.println("Отправляются данные " + entry.getKey() + " : " + entry.getValue());
             testBase.EnterValueToFill(entry.getKey(), entry.getValue());
+            System.out.println("Данные отправлены ");
         }
         attachScreenshot();
     }
 
+    @Step("Пользователь нажимает на кнопку {nameButton}")
     @И("пользователь нажимает на кнопку \"([^\"]*)\"$")
-    public void пользователНажимаетНаКнопку(String nameButton){
+    public void userClickToButton(String nameButton){
         testBase = new TestBase();
         testBase.clickToElement(nameButton);
         attachScreenshot();
     }
 
-    @Тогда("открывается страница \"([^\"]*)\"$")
-    public void открываетсяСтраница(String namePage){
-        attachScreenshot();
+    @Step("Закрывается браузер")
+    @И("закрывается браузер")
+    public void browserClose() {
+        testBase = new TestBase();
+        testBase.closeDriver();
     }
 }

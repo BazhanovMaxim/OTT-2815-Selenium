@@ -4,14 +4,9 @@ import annotations.ElementTitle;
 import annotations.PageEntry;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 @PageEntry(PageTitle = "Навигационная панель")
-public class NavigationPanel extends BasePage {
-
-    public NavigationPanel(){
-        PageFactory.initElements(webDriver, this);
-    }
+public class NavigationPanel extends TestBase {
 
     @ElementTitle(ElementTitle = "Issue")
     @FindBy(id = "find_link")
@@ -26,11 +21,10 @@ public class NavigationPanel extends BasePage {
     private WebElement createButton;
 
     @ElementTitle(ElementTitle = "User profile")
-    @FindBy(id = "header-details-user-fullname > span > span > img")
+    @FindBy(css = "#header-details-user-fullname > span > span > img")
     private WebElement profileLink;
 
     @ElementTitle(ElementTitle = "LogOut")
     @FindBy(id = "log_out")
     private WebElement logOutButton;
-
 }
