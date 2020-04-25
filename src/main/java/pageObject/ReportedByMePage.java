@@ -8,13 +8,17 @@ import org.openqa.selenium.support.FindBy;
 @PageEntry(PageTitle = "Reported by me")
 public class ReportedByMePage extends TestBase {
 
-    @ElementTitle(ElementTitle = "MAX-2")
-    @FindBy(xpath = "/html/body/div[1]/section/div[1]/div[3]/div/div[2]/div/div/div/div/div/div[1]/div[1]/div/div[1]/div[2]/div/ol/li[1]")
-    private WebElement IssueMAX2;
-
     @ElementTitle(ElementTitle = "Reported by me")
-    @FindBy(className = ".search-title")
+    @FindBy(css = ".search-title")
     private WebElement reportedByMeTitle;
+
+    @ElementTitle(ElementTitle = "More")
+    @FindBy(css = "#opsbar-operations_more > .dropdown-text")
+    private WebElement issueMoreButton;
+
+    @ElementTitle(ElementTitle = "Delete")
+    @FindBy(css = "#delete-issue > a")
+    private WebElement issueDeleteButton;
 
     @ElementTitle(ElementTitle = "Comment")
     @FindBy(css = "#comment-issue > .trigger-label")
@@ -29,7 +33,7 @@ public class ReportedByMePage extends TestBase {
     private WebElement issueCommentField;
 
     @ElementTitle(ElementTitle = "Edit")
-    @FindBy(id = "edit-issue > .trigger-label")
+    @FindBy(css = "#edit-issue > .trigger-label")
     private WebElement issueEditButton;
 
     @ElementTitle(ElementTitle = "Key")

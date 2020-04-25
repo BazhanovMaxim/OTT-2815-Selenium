@@ -3,10 +3,7 @@ package pageObject;
 import annotations.ElementTitle;
 import annotations.PageEntry;
 import filesUtils.ReadFile;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.reflections.Reflections;
@@ -14,48 +11,61 @@ import org.reflections.Reflections;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class TestBase{
 
     private ReadFile readFile = new ReadFile();
-    private static String pageTitle;
-    private ManageDriver manageDriver = ManageDriver.getInstance();
-    public WebDriver webDriver_1 = manageDriver.webDriver;
+    private static String page;
+    private WebDriver webDriver = ManageDriver.getInstance();
 
-    public String getPageTitle() {
-        return pageTitle;
+    public String getPage() {
+        return page;
     }
 
-    public void setPageTitle(String pageTitle) {
-        TestBase.pageTitle = pageTitle;
+    public void setPage(String pageTitle) {
+        TestBase.page = pageTitle;
     }
 
     public TestBase(){
-        PageFactory.initElements(webDriver_1, this);
+        PageFactory.initElements(webDriver, this);
     }
 
     public void closeDriver(){
-        webDriver_1.quit();
+        webDriver.quit();
+    }
+
+    public void openUrl(){
+        webDriver.get("http://localhost:8080/login.jsp");
     }
 
     public String getTitle(String title){
-        String nameFile = getPageTitle();
+        String nameFile = getPage();
         Class<?> getClassElements = getPage(nameFile);
-        return webDriver_1.findElement(By.cssSelector(getFieldsByAnnotation(getClassElements, title))).getText();
+        return ManageDriver.getInstance().findElement(By.cssSelector(getFieldsByAnnotation(getClassElements, title))).getText();
+    }
+
+    public void clickToIssueByKeyOrSummary(String issueName){
+        ManageDriver.getInstance().findElement(By.xpath("//*[text()='" + issueName + "']")).click();
     }
 
     public void EnterValueToFill(String inputToFill, String text){
-        String nameFile = getPageTitle();
+        String nameFile = getPage();
         Class<?> getClassElements = getPage(nameFile);
         String elementSelectorID = getFieldsByAnnotation(getClassElements, inputToFill);
-        if (checkEnabledElementById(elementSelectorID))
-            webDriver_1.findElement(By.id(getFieldsByAnnotation(getClassElements, inputToFill))).sendKeys(text);
-        else webDriver_1.findElement(By.className(elementSelectorID)).sendKeys(text);
+        if (checkEnabledElementById(elementSelectorID)){
+            ManageDriver.getInstance().findElement(By.id(elementSelectorID)).click();
+            ManageDriver.getInstance().findElement(By.id(elementSelectorID)).sendKeys(text);
+        }
+        else {
+            ManageDriver.getInstance().findElement(By.id(elementSelectorID)).click();
+            ManageDriver.getInstance().findElement(By.className(elementSelectorID)).sendKeys(text);
+        }
     }
 
     public boolean checkEnabledElementById(String element){
         try {
-            webDriver_1.findElement(By.id(element)).isDisplayed();
+            ManageDriver.getInstance().findElement(By.id(element)).isDisplayed();
             return true;
         } catch (NoSuchElementException e){
             return false;
@@ -64,7 +74,7 @@ public class TestBase{
 
     public boolean checkEnabledElementByClass(String element){
         try {
-            webDriver_1.findElement(By.className(element)).isDisplayed();
+            ManageDriver.getInstance().findElement(By.className(element)).isDisplayed();
             return true;
         } catch (NoSuchElementException e){
             return false;
@@ -73,7 +83,7 @@ public class TestBase{
 
     public boolean checkEnableElementByXpath(String element){
         try {
-            webDriver_1.findElement(By.xpath(element)).isDisplayed();
+            ManageDriver.getInstance().findElement(By.xpath(element)).isDisplayed();
             return true;
         } catch (NoSuchElementException e){
             return false;
@@ -81,33 +91,33 @@ public class TestBase{
     }
 
     public void clickToElement(String elementToClick){
-        String nameFile = getPageTitle();
+        String nameFile = getPage();
         Class<?> getClassElements = getPage(nameFile);
         String elementSelectorID = getFieldsByAnnotation(getClassElements, elementToClick);
         if (checkEnabledElementById(elementSelectorID)) {
             try{
-                webDriver_1.findElement(By.id(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.id(elementSelectorID)).click();
             } catch (StaleElementReferenceException e){
-                webDriver_1.findElement(By.id(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.id(elementSelectorID)).click();
             }
         } else if (checkEnabledElementByClass(elementSelectorID)){
             try{
-                webDriver_1.findElement(By.className(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.className(elementSelectorID)).click();
             } catch (StaleElementReferenceException e){
-                webDriver_1.findElement(By.className(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.className(elementSelectorID)).click();
             }
         } else if (checkEnableElementByXpath(elementSelectorID)){
             try{
-                webDriver_1.findElement(By.xpath(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.xpath(elementSelectorID)).click();
             } catch (StaleElementReferenceException e){
-                webDriver_1.findElement(By.xpath(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.xpath(elementSelectorID)).click();
             }
         }
         else {
             try{
-                webDriver_1.findElement(By.cssSelector(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.cssSelector(elementSelectorID)).click();
             } catch (StaleElementReferenceException e){
-                webDriver_1.findElement(By.cssSelector(elementSelectorID)).click();
+                ManageDriver.getInstance().findElement(By.cssSelector(elementSelectorID)).click();
             }
         }
     }
@@ -145,15 +155,19 @@ public class TestBase{
                 if (elementTitle.ElementTitle().equals(equalsElement)) {
                     FindBy findBy = (FindBy) field.getAnnotation(FindBy.class);
                     if ((findBy.id().equals("")) && (findBy.xpath().equals("")) && (findBy.css().equals(""))) {
+                        System.out.println("CLASS FiNDED: " + findBy.className());
                         return findBy.className();
                     }
                     else if ((findBy.className().equals("")) && (findBy.xpath().equals("")) && (findBy.css().equals(""))) {
+                        System.out.println("CLASS FiNDED: " + findBy.id());
                         return findBy.id();
                     }
                     else if ((findBy.className().equals("")) && (findBy.id().equals("")) && (findBy.css().equals(""))){
+                        System.out.println("CLASS FiNDED: " + findBy.xpath());
                             return findBy.xpath();
                     }
                     else{
+                        System.out.println("CLASS FiNDED: " + findBy.css());
                         return findBy.css();
                     }
                 }

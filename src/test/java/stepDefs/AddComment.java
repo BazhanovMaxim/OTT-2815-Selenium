@@ -38,7 +38,7 @@ public class AddComment extends AllureLogger {
     public void userClicksOnThePageNameOnTheButton(String namePage, String nameButton) {
         createFile = new CreateFile();
         testBase = new TestBase();
-        testBase.setPageTitle(namePage);
+        testBase.setPage(namePage);
         testBase.clickToElement(nameButton);
         attachScreenshot();
     }
@@ -47,12 +47,12 @@ public class AddComment extends AllureLogger {
     @Когда("пользователь выбирает запись по ключу \"([^\"]*)\"$")
     public void UserSelectsAnEntryByKey(String issueKey) {
         testBase = new TestBase();
-        testBase.clickToElement(issueKey);
+        testBase.clickToIssueByKeyOrSummary(issueKey);
     }
 
-    @Step("Пользователь в поле {nameField} печатает комментарий {commentText}")
-    @Тогда("пользователь в поле \"([^\"]*)\" печатает комментарий \"([^\"]*)\"$")
-    public void userInThePrintCommentField(String nameField, String commentText) {
+    @Step("Пользователь в поле {nameField} печатает {commentText}")
+    @Тогда("пользователь в поле \"([^\"]*)\" печатает \"([^\"]*)\"$")
+    public void userInThePrintField(String nameField, String commentText) {
         testBase = new TestBase();
         testBase.EnterValueToFill(nameField, commentText);
     }

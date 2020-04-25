@@ -10,20 +10,17 @@ import java.util.concurrent.TimeUnit;
 
 public final class ManageDriver {
 
-    private static ManageDriver manageDriver;
-
-    public WebDriver webDriver;
+    private static WebDriver webDriver;
     private static Properties properties;
 
-    public static ManageDriver getInstance() {
-        if (manageDriver == null) {
-            manageDriver = new ManageDriver();
+    public static WebDriver getInstance() {
+        if (webDriver == null) {
+            webDriver = ManageDriver();
         }
-        return manageDriver;
+        return webDriver;
     }
 
-    private ManageDriver(){
-        WebDriver createWebDriver;
+    private static WebDriver ManageDriver(){
         try{
             properties = new Properties();
             FileInputStream fileInputStream = new FileInputStream(
@@ -40,12 +37,12 @@ public final class ManageDriver {
         final String BASE_URL = properties.getProperty("base_url");
 
         System.setProperty(BROWSER_NAME, PATH_TO_CHROME);
-        createWebDriver = new ChromeDriver();
-        createWebDriver.manage().window().maximize();
-        createWebDriver.manage().deleteAllCookies();
-        createWebDriver.manage().timeouts().pageLoadTimeout(Long.parseLong(PAGE_LOAD_TIMEOUT), TimeUnit.SECONDS);
-        createWebDriver.manage().timeouts().implicitlyWait(Long.parseLong(IMPLICIT_WAIT), TimeUnit.SECONDS);
-        createWebDriver.get(BASE_URL);
-        this.webDriver = createWebDriver;
+        webDriver = new ChromeDriver();
+        webDriver.manage().window().maximize();
+        webDriver.manage().deleteAllCookies();
+        webDriver.manage().timeouts().pageLoadTimeout(Long.parseLong(PAGE_LOAD_TIMEOUT), TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Long.parseLong(IMPLICIT_WAIT), TimeUnit.SECONDS);
+        //webDriver.get(BASE_URL);
+        return webDriver;
     }
 }

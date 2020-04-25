@@ -1,6 +1,10 @@
 package stepDefs;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.qameta.allure.Step;
+import org.openqa.selenium.WebDriver;
+import pageObject.ManageDriver;
 import pageObject.TestBase;
 import allure.AllureLogger;
 import io.cucumber.datatable.DataTable;
@@ -20,7 +24,7 @@ public class Auth extends AllureLogger {
     @Тогда("открывается страница \"([^\"]*)\"$")
     public void pageOpens(String namePage){
         testBase = new TestBase();
-        testBase.setPageTitle(namePage);
+        testBase.setPage(namePage);
         equals("Проверка заголовка страницы", testBase.getTitle(namePage), namePage);
         attachScreenshot();
     }
@@ -31,9 +35,7 @@ public class Auth extends AllureLogger {
         testBase = new TestBase();
         Map<String, String> getMapDataUser = dataTable.asMap(String.class, String.class);
         for (Map.Entry<String, String> entry : getMapDataUser.entrySet()){
-            System.out.println("Отправляются данные " + entry.getKey() + " : " + entry.getValue());
             testBase.EnterValueToFill(entry.getKey(), entry.getValue());
-            System.out.println("Данные отправлены ");
         }
         attachScreenshot();
     }
@@ -50,6 +52,6 @@ public class Auth extends AllureLogger {
     @И("закрывается браузер")
     public void browserClose() {
         testBase = new TestBase();
-        testBase.closeDriver();
+        //testBase.closeDriver();
     }
 }
