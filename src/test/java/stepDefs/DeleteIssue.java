@@ -6,14 +6,14 @@ import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import pageObject.TestBase;
+import pageObject.BasePage;
 import restAPI.request.DeleteRequest;
 
 public class DeleteIssue extends AllureLogger {
 
     private DeleteRequest deleteIssueAPI;
     private ReadFile readFile;
-    private TestBase testBase;
+    private BasePage basePage;
 
     @Step("Отправляется запрос на удаление записи")
     @Тогда("отправляется запрос на удаление записи")
@@ -31,8 +31,8 @@ public class DeleteIssue extends AllureLogger {
     @Step("Пользовать выбирает запись по Summary {summaryName}")
     @Когда("пользователь выбирает запись по Summary \"([^\"]*)\"$")
     public void UserSelectsAnEntryBySummary(String summaryName) {
-        testBase = new TestBase();
-        testBase.clickToIssueByKeyOrSummary(summaryName);
+        basePage = new BasePage();
+        basePage.clickToIssueByKeyOrSummary(summaryName);
         attachScreenshot();
     }
 }

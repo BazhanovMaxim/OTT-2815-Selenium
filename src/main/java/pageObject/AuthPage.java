@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Welcome to Jira")
-public class AuthPage extends TestBase {
+public class AuthPage extends BasePage {
 
     @ElementTitle(ElementTitle = "Welcome to Jira")
     @FindBy(css = ".aui-page-header-main > h1")

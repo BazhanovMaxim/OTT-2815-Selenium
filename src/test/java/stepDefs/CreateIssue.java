@@ -6,14 +6,14 @@ import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Тогда;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import pageObject.TestBase;
+import pageObject.BasePage;
 import restAPI.request.PostRequest;
 
 public class CreateIssue extends AllureLogger {
 
     private ReadFile readFile;
     private PostRequest postRequest;
-    private TestBase testBase;
+    private BasePage basePage;
 
     @Step("Отправляется запрос на создание записи")
     @Тогда("отправляется запрос на создание записи")
@@ -31,8 +31,8 @@ public class CreateIssue extends AllureLogger {
     @Step("Пользователь в блоке Issue Type выбиарает {storyFieldSelect}")
     @И("пользователь в блоке Issue Type выбирает \"([^\"]*)\"$")
     public void пользовательВБлокеIssueTypeВыбирает(String storyFieldSelect) {
-        testBase = new TestBase();
-        testBase.clickToElement(storyFieldSelect);
+        basePage = new BasePage();
+        basePage.clickToElement(storyFieldSelect);
         attachScreenshot();
     }
 }

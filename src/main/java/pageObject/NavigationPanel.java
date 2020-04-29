@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Навигационная панель")
-public class NavigationPanel extends TestBase {
+public class NavigationPanel extends BasePage {
 
     @ElementTitle(ElementTitle = "Issue")
     @FindBy(id = "find_link")

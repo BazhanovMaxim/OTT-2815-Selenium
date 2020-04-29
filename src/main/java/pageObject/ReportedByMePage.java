@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Reported by me")
-public class ReportedByMePage extends TestBase {
+public class ReportedByMePage extends BasePage {
 
     @ElementTitle(ElementTitle = "Reported by me")
     @FindBy(css = ".search-title")
@@ -19,6 +19,34 @@ public class ReportedByMePage extends TestBase {
     @ElementTitle(ElementTitle = "Delete")
     @FindBy(css = "#delete-issue > a")
     private WebElement issueDeleteButton;
+
+    @ElementTitle(ElementTitle = "Summary")
+    @FindBy(css = "#summary-val")
+    private WebElement issueSummary;
+
+    @ElementTitle(ElementTitle = "Reporter")
+    @FindBy(css = "#reporter-val span")
+    private WebElement issueReporter;
+
+    @ElementTitle(ElementTitle = "Type")
+    @FindBy(css = "#type-val")
+    private WebElement issueType;
+
+    @ElementTitle(ElementTitle = "Priority")
+    @FindBy(css = "#priority-val")
+    private WebElement issuePriority;
+
+    @ElementTitle(ElementTitle = "Resolution")
+    @FindBy(css = "#resolution-val")
+    private WebElement issueResolution;
+
+    @ElementTitle(ElementTitle = "DataToCreated")
+    @FindBy(css = "#created-val > .livestamp")
+    private WebElement issueWasCreated;
+
+    @ElementTitle(ElementTitle = "IssueWasUpdated")
+    @FindBy(css = "#updated-val > .livestamp")
+    private WebElement issueWasUpdate;
 
     @ElementTitle(ElementTitle = "Comment")
     @FindBy(css = "#comment-issue > .trigger-label")
@@ -37,7 +65,7 @@ public class ReportedByMePage extends TestBase {
     private WebElement issueEditButton;
 
     @ElementTitle(ElementTitle = "Key")
-    @FindBy(id = "key-val")
+    @FindBy(css = "#key-val")
     private WebElement reporterByMeLink;
 
     @ElementTitle(ElementTitle = "Create")

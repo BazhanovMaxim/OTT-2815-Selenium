@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Edit Issue")
-public class EditIssue extends TestBase{
+public class EditIssue extends BasePage {
 
     @ElementTitle(ElementTitle = "Edit Issue")
     @FindBy(css = ".jira-dialog-heading > h2")

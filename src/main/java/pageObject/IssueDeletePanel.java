@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Delete Issue")
-public class IssueDeletePanel extends TestBase {
+public class IssueDeletePanel extends BasePage {
 
     @ElementTitle(ElementTitle = "Delete Issue")
     @FindBy(css = ".jira-dialog-heading")

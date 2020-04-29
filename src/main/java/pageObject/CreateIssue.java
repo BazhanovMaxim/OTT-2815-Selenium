@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageEntry(PageTitle = "Create Issue")
-public class CreateIssue extends TestBase{
+public class CreateIssue extends BasePage {
 
     @ElementTitle(ElementTitle = "Create Issue")
     @FindBy(css = ".jira-dialog-heading > h2")
@@ -37,7 +37,7 @@ public class CreateIssue extends TestBase{
     private WebElement assiqnToMeLink;
 
     @ElementTitle(ElementTitle = "Create")
-    @FindBy(css = "#create-issue-submit")
+    @FindBy(id = "create-issue-submit")
     private WebElement createButton;
 
     @ElementTitle(ElementTitle = "Panel was created")

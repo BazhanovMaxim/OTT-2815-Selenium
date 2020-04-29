@@ -14,7 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -52,18 +53,19 @@ public class AllureLogger {
      * вида comment: успешно выполнена проверка значения 'checkValue.toString()'
      * либо об ошибке
      * вида comment: значение 'checkValue.toString()' не равно 'baseValue.toString()'
-     *
      * @param checkedValueName комментарий к сравниваемым параметрам
      * @param checkedValue     полученное значение, которое сравнивается со вторым
      * @param expectedValue    ожидаемое значение
      */
     @Step("{0}")
     public static void equals(String checkedValueName, Object checkedValue, Object expectedValue) {
+        Pattern pattern = Pattern.compile(String.valueOf(expectedValue));
+        Matcher matcher = pattern.matcher(String.valueOf(checkedValue));
         if ((expectedValue instanceof Boolean) && (String.valueOf(checkedValue).length() > 0)) {
             info(String.format("Параметр '%s': значение '%s' соответствует непустому ожидаемому", checkedValueName, String.valueOf(checkedValue)));
             return;
         }
-        if (Objects.equals(checkedValue, expectedValue))
+        if (matcher.find())
             info(String.format("Параметр '%s': значение '%s' соответствует ожидаемому", checkedValueName, String.valueOf(checkedValue)));
         else
             error(String.format("Параметр '%s': значение '%s' не равно ожидаемому '%s'"
