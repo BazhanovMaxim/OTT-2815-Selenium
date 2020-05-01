@@ -20,13 +20,15 @@ public final class ManageDriver {
     private static WebDriver webDriver;
     private static Properties properties;
 
+    public ManageDriver(){}
+
     /**
      * Если экземпляр создан - то возвращается уже созданный,
      * иначе создаётся новый
      * @return webDriver
      */
     public static WebDriver getInstance() {
-        if (webDriver == null) {
+        if ((webDriver == null) || ((ChromeDriver) webDriver).getSessionId() == null) {
             webDriver = ManageDriver();
         }
         return webDriver;
