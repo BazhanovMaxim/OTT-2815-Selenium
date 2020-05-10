@@ -94,4 +94,13 @@ public class AllureLogger {
             return null;
         }
     }
+
+    @Attachment(value = "Видео вложение", fileExtension = ".avi")
+    public static byte[] getRecordedVideo(String resourceName){
+        try {
+            return Files.readAllBytes(Paths.get(resourceName));
+        } catch (IOException e) {
+            return null;
+        }
+    }
 }

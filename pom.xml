@@ -106,6 +106,13 @@
             <version>${reflections.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.pojosontheweb/monte-repack -->
+        <dependency>
+            <groupId>com.pojosontheweb</groupId>
+            <artifactId>monte-repack</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
